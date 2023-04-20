@@ -10,6 +10,7 @@ export class CdkPipelineMultiAccountStack extends Stack {
       pipelineName: "multi-account-pipeline",
       synth: new pipelines.ShellStep("Synth",{
         input: pipelines.CodePipelineSource.gitHub("annguyen36/cdk-pipeline","main"),
+        installCommands: ['npm i -g npm@latest'],
         commands:['npm ci','npm run build','npx cdk synth']
       })
     })
