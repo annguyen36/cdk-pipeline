@@ -1,16 +1,17 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as pipelines from 'aws-cdk-lib/pipelines';
 
 export class CdkPipelineMultiAccountStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'CdkPipelineMultiAccountQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    const pipeline = new pipelines.CodePipeline(this, 'pipeline',{
+      pipelineName: "multi-account-pipeline",
+      synth: new pipelines.ShellStep("Synth",{
+        input: pipelines.CodePipelineSource.gitHub("annguyen36/cdk-pipeline","main"),
+        commands:['npm ci','npm run build','npx cdk synth']
+      })
+    })
   }
 }
