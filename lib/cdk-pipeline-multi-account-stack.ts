@@ -20,5 +20,16 @@ export class CdkPipelineMultiAccountStack extends Stack {
     pipeline.addStage(new LambdaStage(this, 'dev', {
       env: { account: '085686312408', region: 'us-west-2' }
     }));
+
+    const prdWave = pipeline.addWave('prod');
+
+    prdWave.addStage(new LambdaStage(this, 'Prod', {
+      env: { account: '872601154219', region: 'us-west-2' }
+    }));
+    prdWave.addStage(new LambdaStage(this, 'Prod', {
+      env: { account: '872601154219', region: 'us-west-2' }
+    }));
+
+    
   }
 }
